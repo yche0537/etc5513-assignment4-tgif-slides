@@ -35,7 +35,7 @@ Dr Patricia Menéndez
 knitr::include_graphics("figs/patricia.jpeg")
 ```
 
-Lecturer Department of Econometrics and Business Statistics.
+Lecturer Department of Econometric and Business Statistics.
 
 
 
@@ -51,10 +51,10 @@ Lecturer Department of Econometrics and Business Statistics.
 
 
 ---
-class: left, middle
+class: left, top
 # This is an example of using boxes around txt
 .content-box-soft[ 
-* Understand the aims and structure of the unit
+- Understand the aims and structure of the unit
 ]
 
 .content-box-duke-green[ 
@@ -138,7 +138,8 @@ class: left, middle
 * My section
 
 ### Another samller heading
-.content-box-soft[ 
+.content-box-duke-green[ 
+
   - You will get instructions with the tasks that need to be completed during the tutorial.
   - Fan and Naveen will be there to guide and help you through the activities.
   - Tutorials also provide a good opportunity for you to discuss and work with your peers.
@@ -151,9 +152,9 @@ class: left, middle
 # Using also LaTex
 
 .content-box-soft[ 
-- .green[.bold[Patricia]] $\rightarrow$ hello hello ]
+- .green[.bold[Patricia]] $\leftarrow$ hello hello ]
 
-- $\sum_{n = 1}^{\infty}$ x_i
+- $\sum_{i = 1}^{\infty} x_i$
 
 **Bolding using markdown**
 

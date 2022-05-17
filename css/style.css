@@ -107,23 +107,24 @@ a, a > code {
   color: #E9EBEE;
 }
 .title-slide {
-  background-image: url(title.jpg);
+  background-image: url(yana-gorbunova-xXvFbupJYJ8-unsplash.jpg);
   background-size: cover;
 }
 .title-slide h1 {
   text-shadow: none;
-  color: #F7F8FA;
-  margin-left: +190px;
+  color: 	#3b444b;
+  margin-left: +30pt;
+  margin-top: +5pt;
 }
 .title-slide h2 {
   text-shadow: none;
   color: #F7F8FA;
-  margin-left: +190px;
+  margin-left: +30pt;
 }
 .title-slide h3 {
   text-shadow: none;
   color: #F7F8FA;
-  margin-left: +200px;
+  margin-left: +30pt;
 }
 .title-slide .remark-slide-number {
   display: none;

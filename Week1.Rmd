@@ -19,6 +19,8 @@ options(htmltools.dir.version = FALSE)
 library(tidyverse)
 library(palmerpenguins)
 library(datasets)
+library(plotly)
+library(kableExtra)
 ```
 
 
@@ -177,28 +179,118 @@ class:  center, top
 
 
 ---
-class: left, top
 
-# Adding code
+### Global meat production -- Di Cui
 
-```{r }
-c(1:10)
+How does global meat production develop from 1961 to 2018?
+
+```{r Q1, echo = FALSE, message = FALSE, warning = FALSE, fig.cap="Global meat production from 1961 to 2018", fig.width=10, fig.height=5.5, fig.align='center'}
+
+global_production <-read.csv(here::here("Data/global-meat-production.csv"))
+production <- read.csv(here::here("Data/meat-production-tonnes.csv"))
+
+global_production <- global_production %>%
+  rename("meat_production" = "Livestock.Primary...Meat..Total...1765...Production...5510...tonnes") %>%
+  mutate(meat_production = round(meat_production/1000000, digits = 2)) %>%
+  filter(Entity %in% c("Oceania", "Africa", "Central America", "South America", "Northern America", "Europe", "Asia")) 
+
+df <- global_production %>%
+  group_by(Entity) %>%
+  mutate(meat_sum = sum(meat_production)) %>%
+  ungroup() %>%
+  arrange(meat_sum) 
+
+df <- df %>%
+  mutate(Entity = factor(Entity, unique(Entity))) %>%
+  group_by(Year) %>%
+  mutate(total = sum(meat_production))
+
+ggplot(df, aes(x = Year, y = meat_production, color = Entity))+
+  geom_line()+
+  scale_fill_brewer(palette = "Set3")+
+  scale_x_continuous(breaks = c(1961,1970,1980, 1990, 2000, 2010,2018))+
+  scale_y_continuous(breaks = c(0, 10, 50, 100, 150))+
+  ylab("livestock meat production (million tonnes)")+
+  theme_bw()
 
 ```
+
+---
+
+
+```{r table, echo = FALSE, message = FALSE, warning = FALSE}
+increase <- df %>%
+  filter(Year == 2018 | Year == 1961) %>%
+  select(Entity, Year, meat_production) %>%
+  pivot_wider(names_from = Year, values_from = meat_production) %>%
+  rename("Year2018" = "2018", "Year1961" = "1961" ) %>%
+  mutate(per_wolrd_2018 = round(Year2018*100/sum(Year2018), digits = 2)) %>%
+  mutate(increase_times = round((Year2018-Year1961)/Year1961, digits = 2)) 
+   
+ 
+increase %>%
+  arrange(-per_wolrd_2018)%>%
+  knitr::kable(caption = "The comparison between 1961 and 2018") %>%
+  kable_styling()
+
+```
+
+---
+
+How do the Top six countries of meat production develop from 1961 to 2018?
+
+```{r country, echo = FALSE, message = FALSE, warning = FALSE, fig.cap="Top six countries' meat production from 1961 to 2018", fig.width=10, fig.height=6.5, fig.align='center'}
+production <- production %>%
+   rename("meat_production" = "Livestock.Primary...Meat..Total...1765...Production...5510...tonnes") %>%
+  mutate(meat_production = round(meat_production/1000000, digits = 2)) 
+
+df2 <- production %>%
+  group_by(Entity) %>%
+  mutate(meat_sum = sum(meat_production)) %>%
+  ungroup() %>%
+  arrange(-meat_sum) 
+
+df2 <- df2 %>%
+  filter(Code != "" &
+        Code %in% c("CHN", "USA", "BRA", "DEU", "FRA", "ARG"))
+
+ggplot(df2, aes(x = Year, y = meat_production, color = Entity))+
+  geom_line()+
+  scale_fill_brewer(palette = "Set3")+
+  scale_x_continuous(breaks = c(1961,1970,1980, 1990, 2000, 2010,2018))+
+  ylab("Top 6 countries of livestock meat production (million tonnes)")+
+  theme_bw()
+
+ggplotly()
+
+```
+
 
 
 ---
-class: left, top
-# Adding code
 
-```{r }
-penguins %>%
-  dplyr::select(body_mass_g,
-                ends_with("_mm")
-                ) %>%
-  glimpse()
+
+```{r country-table, echo = FALSE, message = FALSE, warning = FALSE}
+increase2 <- production %>%
+  group_by(Entity) %>%
+  filter(Code != "" &
+        Code %in% c("CHN", "USA", "BRA", "DEU", "FRA", "ARG" ,"OWID_WRL"))%>%
+  filter(Year == 2018 | Year == 1961) %>%
+  select(Entity, Year, meat_production) %>%
+  pivot_wider(names_from = Year, values_from = meat_production) %>%
+  rename("Year2018" = "2018", "Year1961" = "1961" ) %>%
+  mutate(per_wolrd_2018 = round(Year2018*100/342.42, digits = 2)) %>%
+  mutate(increase_times = round((Year2018-Year1961)/Year1961, digits = 2)) 
+  
+
+increase2 %>%
+  arrange(-per_wolrd_2018)%>%
+  knitr::kable(caption = "The comparison between 1961 and 2018") %>%
+  kable_styling()
+
+
+
 ```
-
 
 
 

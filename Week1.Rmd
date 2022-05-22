@@ -301,6 +301,138 @@ knitr::kable(iris2,
 
 
 
+---
+class: left, top
+# Per capita meat consumption -Yunzhi Chen
+```{r read-data, echo = FALSE, message = FALSE}
+# Read data
+meat_consumption_total <- read.csv(here::here("Data/meat-supply-per-person.csv"))
+meat_consumption_type <- read.csv(here::here("Data/per-capita-meat-consumption-by-type-kilograms-per-year.csv"))
+meat_consumption <- meat_consumption_type %>% left_join(meat_consumption_total) %>%
+  rename(Country = Entity,
+         Mutton_Goat = Mutton...Goat.meat.food.supply.quantity..kg.capita.yr...FAO..2020.,
+         Other_meats = Meat..Other..Food.supply.quantity..kg.capita.yr...FAO..2020.,
+         Poultry = Poultry.meat.food.supply.quantity..kg.capita.yr...FAO..2020.,
+         Pork = Pigmeat.food.supply.quantity..kg.capita.yr...FAO..2020.,
+         Beef_Bufallo = Bovine.meat.food.supply.quantity..kg.capita.yr...FAO..2020.,
+         Total_consumption_kg_capita_yr = Meat.food.supply.quantity..kg.capita.yr...FAO..2020.) %>%
+  na_if("") %>%
+  filter(complete.cases(Code)) %>%
+  filter(Country != "Hong Kong" & Country != "Taiwan")
+
+```
+## Research questions
+
+.content-box-duke-green[ 
+* Q1: Which countries eat the most meat in the last 20 years?
+]
+
+.content-box-duke-green[ 
+* Q2: What types of meat do people eat?
+]
+
+**Q1: Which countries eat the most meat in the last 20 years?**
+**Q2: What types of meat do people eat?**
+
+???
+注释
+
+
+
+
+
+---
+class: left, top
+## Which countries eat the most meat in the last 20 years?
+
+```{r highest-meanconsumption, echo = FALSE}
+
+highest_meanconsumption <- meat_consumption %>% 
+                 filter(Year >= 1997) %>%
+                 group_by(Country) %>%
+                 summarise(Mean_consumption_kg_capita_yr = mean(Total_consumption_kg_capita_yr)) %>%
+                 arrange(desc(Mean_consumption_kg_capita_yr)) %>%
+                 select(Country, Mean_consumption_kg_capita_yr)
+
+table_data2 <- head(highest_meanconsumption, 6)
+
+knitr::kable(table_data2,
+             caption = "Top 6 countries with the largest mean of meat consumption over years", digits = 2) 
+```
+
+- The top six countries are the United States, Australia, New Zealand, Spain, French Polynesia and Bahamas.
+
+???
+The top six countries with the highest average meat consumption mean in the world over the 20-year period from 1997 to 2017 are the United States, Australia, New Zealand, Spain, French Polynesia and Bahamas. The highest per capita meat consumption mean of the United States reached about 121.2 kg/capita/year. Countries with high income also consume more meat. Developed countries account for a large share of the six countries with the highest average meat consumption over years.
+
+---
+class: left, top
+## Which countries eat the most meat in the last 20 years?
+
+
+```{r highest-consumption-trend, echo = FALSE,  fig.height=5, fig.width=9, fig.cap = "Consumption trend of top 6 countries"}
+highest_consumption_trend <- meat_consumption %>% 
+             filter(Year >= 1997) %>%
+             filter(Country %in% c("United States", 
+                                   "Australia", 
+                                   "New Zealand", 
+                                   "Spain", 
+                                   "French Polynesia", 
+                                   "Bahamas",
+                                   "World")) 
+
+ggplot(highest_consumption_trend, 
+      aes(x = Year, 
+          y = Total_consumption_kg_capita_yr, 
+          color = Country)) + 
+ geom_line()  
+
+```
+
+- Considerable fluctuation trends except Australia and the United States.
+- Total value is much higher than the world consumption.
+
+???
+The meat consumption per person in these countries over the last 20 years have fluctuated considerably, with the exception of Australia and the United States, where consumption has increased, while all other countries have shown a decreasing trend, but the total value is still much higher than the world per capita meat consumption.
+
+
+---
+class: left, top
+## What types of meat do people eat?
+
+```{r Meat-type, echo = FALSE, include = FALSE, fig.height=5, fig.width=9, fig.cap = "Meat type changes over time"}
+Meat_type <- meat_consumption %>% filter(Country == "World") %>%
+  pivot_longer(col = Mutton_Goat:Beef_Bufallo,
+               names_to = "Type",
+               values_to = "Per_capita_meat_consumption_by_type")
+
+ggplot(Meat_type, 
+      aes(x = Year, 
+          y = Per_capita_meat_consumption_by_type,
+          fill = Type)) + 
+ scale_x_continuous(
+    breaks = seq(min(Meat_type$Year),
+                 max(Meat_type$Year), by=4))+
+ geom_col() 
+
+```
+
+```{r show-label, echo = FALSE, fig.height = 5, fig.width = 9}
+
+ggplotly()
+
+```
+
+- Pork has the highest per capita consumption of meat commodities.
+- In 2013, pork: 16 kg; poultry: 15 kg; beef & buffalo: 9 kg; lamb & goat: 2 kg; and only a small percentage of other meats.
+
+
+???
+As a global average, pork has the highest per capita consumption of meat commodities; in 2013, per capita pork consumption was about 16 kg; followed by 15 kg of poultry; 9 kg of beef/buffalo meat; 2 kg of lamb and goat; and only a small percentage of other meats.
+
+
+
+---
 
 ```{r endslide, child="EndSlide/endslide.Rmd"}
 ```  

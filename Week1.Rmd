@@ -214,12 +214,13 @@ class: left, top
 ---
 class: left, top
 
+## What's the production distribution of different livestock types across the world?
 ```{r load-data, echo = FALSE , message = FALSE, warning = FALSE}
 GD <- read_csv(file = "Data/global-meat-production.csv")
 MT <- read_csv(file = "Data/global-meat-production-by-livestock-type.csv")
 ```
 
-```{r fig1, echo = FALSE , message = FALSE, warning = FALSE, fig.cap = "Global meat production by livestock type, 1961 to 2018", fig.height = 7, fig.width = 10, fig.align='center'}
+```{r fig1, echo = FALSE , message = FALSE, warning = FALSE, fig.cap = "Global meat production by livestock type, 1961 to 2018", fig.height = 3, fig.width = 10, fig.align='center'}
 production <- GD %>%
   select(-Code) %>% 
   filter(Entity %in% c("Asia",
@@ -245,6 +246,7 @@ plt_pd
 ```
 
 In first figure, we see that the **dominant livestock types are poultry**, cattle (which includes beef and buffalo meat), pig, and sheep & goat to a lesser extent at global level.
+
 
 ---
 class: left, top
@@ -287,6 +289,10 @@ From second figure, we can see the production of all major meat types have been 
   - In 1960s poultry meat accounted for small portion; by 2010s its share has tripled. 
   - Beef and buffalo meat as a share of total meat production has nearly halved. 
   - Pig meat’s share has remained more constant.
+
+---
+class: left, top
+## Which countries are main production country for different types of meat, such as: Beef and buffalo, pig and poultry?
 
 ---
 class: middle, top

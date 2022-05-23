@@ -434,11 +434,11 @@ As a global average, pork has the highest per capita consumption of meat commodi
 class: left, top
 # Conclusion
 
-- In 2018, production was around 340 million tonnes.  And Asia and China have contributed greatly to global meat production.
-The average person in the world consumed around 43 kilograms of meat in 2014. This ranges from over 100kg in the US and Australia to only 5kg in India.
+- In 2018, production was around 340 million tonnes. And Asia and China have contributed greatly to global meat production.
 - The amount of meat produced for a given animal varies significantly across the world based on production systems.
 - Richer countries tend to consume more meat per person. Developed countries account for a large share of the six countries with the highest average meat consumption in the last 20 years. 
-- Although meat consumption per capita fluctuated widely from 1997-2017 (except Australia and USA), the values for the top 6 countries are much larger than the world average.
+- The average person in the world consumed around 43 kilograms of meat in 2014. This ranges from over 100kg in the US and Australia to only 5kg in India.
+- Although there is a lot of fluctuation, the amount of meat consumed per capita is much larger than the world average.
 - At the world level, per capita consumption of pork is the highest among meat commodities over years. 
 
 

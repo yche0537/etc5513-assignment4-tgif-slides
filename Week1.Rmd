@@ -1,7 +1,7 @@
 ---
-title: "Xaringan Template"
-subtitle: "An example"
-author: "- Cui, Di", "GuanRu, Chen", "Yunzhi, Chen"
+title: "Meat production and consumption in world"
+subtitle: "TBIR"
+author: "Cui Di, GuanRu Chen, Yunzhi Chen"
 institute: "Master of Business Analytics"
 output:
   xaringan::moon_reader:
@@ -24,16 +24,35 @@ library(bookdown)
 library(gridExtra)
 library(viridis)
 library(plotly)
-library(plotly)
 library(xaringanthemer)
 style_mono_accent(base_color = "#43418A")
 
 ```
 
+---
+class: left, top
+# Outline
+### Global meat production -- Di Cui
+### Meat production by livestock type -- GuanRu Chen
+### Per capita meat consumption -- Yunzhi Chen
+
 
 
 ---
+class: center, middle
+# Global meat production
 
+
+---
+class: left, top
+# Research Questions
+
+.content-box-neutral[ 
+
+]
+
+
+---
 ### Global meat production -- Di Cui
 
 How did global meat production develop from 1961 to 2018?
@@ -156,7 +175,7 @@ increase2 %>%
 ---
 class: center, middle
 # Meat production by livestock type
-Presenter:GaunRu Chen.
+
 
 ---
 class: left, top
@@ -296,11 +315,75 @@ kable_material(c("striped", "hover"), position = "center")
 
 
 
+---
+class: middle, center
+```{r , echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "poultry production, 1961 to 2018"}
+top_poultry<- pd_type %>% 
+  filter(Entity %in% c("United States",
+                       "China",
+                       "Brazil",
+                       "Europe")) %>% 
+  filter(Type== "Poultry") %>% 
+  group_by(Entity)
+
+ggplot(top_poultry, aes(x= Year, y= Amount, color= Entity))+
+  geom_line()+
+  scale_fill_viridis(discrete = TRUE) +
+  theme_minimal()
+```
+
+.content-box[In second table, we can see the production of poultry, like cattle production, **the United States is still the world’s largest producer.** China and Brazil are also large poultry producers. Collectively, Europe is also a major poultry producer, just below the United States.
+]
+
+---
+class: middle, center
+```{r pig, echo = FALSE , message = FALSE, warning = FALSE}
+pd_pigmeat <- pd_type %>% 
+    filter(Type == "Pig") %>% 
+    group_by(Entity) %>% 
+    summarise(Total= sum(Amount))%>% 
+    arrange(-Total)
+
+kable(head(pd_pigmeat, 20), caption = "Pig meat production, 1961-2018", booktabs = T)%>%
+kable_material(c("striped", "hover"), position = "center")
+```
+
+---
+class: middle, center
+```{r , echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "pig production, 1961 to 2018"}
+top_pigmeat<- pd_type %>% 
+  filter(Entity %in% c("United States",
+                       "China",
+                       "Germany")) %>% 
+  filter(Type== "Pig") %>% 
+  group_by(Entity)
+
+ggplot(top_pigmeat, aes(x= Year, y= Amount, color= Entity))+
+  geom_line()+
+  scale_fill_viridis(discrete = TRUE) +
+  theme_minimal()
+```
+
+.content-box[But for pigmeat production , **China dominates global output, producing just short of half of total pigmeat.** The other major producers include the United States, Germany.
+]
+
+
+---
+class: center, middle
+# Per capita meat consumption
 
 
 ---
 class: left, top
-# Per capita meat consumption -Yunzhi Chen
+# Research Questions
+
+.content-box-neutral[ 
+
+- Which countries eat the most meat in the last 20 years?
+- What types of meat do people eat?
+]
+
+
 ```{r read-data, echo = FALSE, message = FALSE}
 # Read data
 meat_consumption_total <- read.csv(here::here("Data/meat-supply-per-person.csv"))
@@ -318,23 +401,6 @@ meat_consumption <- meat_consumption_type %>% left_join(meat_consumption_total) 
   filter(Country != "Hong Kong" & Country != "Taiwan")
 
 ```
-## Research questions
-
-.content-box-duke-green[ 
-* Q1: Which countries eat the most meat in the last 20 years?
-]
-
-.content-box-duke-green[ 
-* Q2: What types of meat do people eat?
-]
-
-**Q1: Which countries eat the most meat in the last 20 years?**
-**Q2: What types of meat do people eat?**
-
-???
-Which
-
-
 
 
 
@@ -446,55 +512,3 @@ class: centre, middle
 # Question & Answer
 
 
-
----
-class: middle, center
-```{r , echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "poultry production, 1961 to 2018"}
-top_poultry<- pd_type %>% 
-  filter(Entity %in% c("United States",
-                       "China",
-                       "Brazil",
-                       "Europe")) %>% 
-  filter(Type== "Poultry") %>% 
-  group_by(Entity)
-
-ggplot(top_poultry, aes(x= Year, y= Amount, color= Entity))+
-  geom_line()+
-  scale_fill_viridis(discrete = TRUE) +
-  theme_minimal()
-```
-
-.content-box[In second table, we can see the production of poultry, like cattle production, **the United States is still the world’s largest producer.** China and Brazil are also large poultry producers. Collectively, Europe is also a major poultry producer, just below the United States.
-]
-
----
-class: middle, center
-```{r pig, echo = FALSE , message = FALSE, warning = FALSE}
-pd_pigmeat <- pd_type %>% 
-    filter(Type == "Pig") %>% 
-    group_by(Entity) %>% 
-    summarise(Total= sum(Amount))%>% 
-    arrange(-Total)
-
-kable(head(pd_pigmeat, 20), caption = "Pig meat production, 1961-2018", booktabs = T)%>%
-kable_material(c("striped", "hover"), position = "center")
-```
-
----
-class: middle, center
-```{r , echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "pig production, 1961 to 2018"}
-top_pigmeat<- pd_type %>% 
-  filter(Entity %in% c("United States",
-                       "China",
-                       "Germany")) %>% 
-  filter(Type== "Pig") %>% 
-  group_by(Entity)
-
-ggplot(top_pigmeat, aes(x= Year, y= Amount, color= Entity))+
-  geom_line()+
-  scale_fill_viridis(discrete = TRUE) +
-  theme_minimal()
-```
-
-.content-box[But for pigmeat production , **China dominates global output, producing just short of half of total pigmeat.** The other major producers include the United States, Germany.
-]

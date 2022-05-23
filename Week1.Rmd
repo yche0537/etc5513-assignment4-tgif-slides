@@ -67,8 +67,7 @@ class: center, middle
 class: left, top
 # Research Questions
 
-
-- How did the global meat production develop by continents?
+- How did global meat production develop by continents?
 
 - How did the meat production develop in countries which contributed greatly?
 
@@ -112,7 +111,7 @@ ggplot(df, aes(x = Year, y = meat_production, color = Entity))+
 
 ---
 class: left, top
-
+#### How did global meat production develop by continents?
 
 ```{r table, echo = FALSE, message = FALSE, warning = FALSE}
 increase <- df %>%
@@ -133,10 +132,11 @@ increase %>%
 - Meat production in Asia has increased around **15** times, accounting for around **43%** of total global meat production.
 
 ---
+class: left, top
 
 ## How did the meat production develop in countries which contributed greatly?
 
-```{r country, echo = FALSE, message = FALSE, warning = FALSE, fig.cap="Top six countries' meat production from 1961 to 2018", fig.width=10, fig.height=5, fig.align='center'}
+```{r country, echo = FALSE, message = FALSE, warning = FALSE, fig.cap="Top six countries' meat production from 1961 to 2018", fig.width=10, fig.height=6, fig.align='center'}
 production <- production %>%
    rename("meat_production" = "Livestock.Primary...Meat..Total...1765...Production...5510...tonnes") %>%
   mutate(meat_production = round(meat_production/1000000, digits = 2)) 
@@ -165,6 +165,8 @@ ggplotly()
 - China has become the largest meat production country in the world since 1990.
 
 ---
+class: left, top
+#### How did the meat production develop in countries which contributed greatly?
 
 ```{r country-table, echo = FALSE, message = FALSE, warning = FALSE}
 increase2 <- production %>%
@@ -188,11 +190,11 @@ increase2 %>%
 
 ```
 
--The world's meat production has around quadrupled.
+- The world's meat production has around quadrupled.
 
--China has increased about 34 times.
+- China has increased about 34 times.
 
-**Although these Entities have increased, their proportion has changed a lot. In 2018, Asia and China cover a large proportion of the global meat production.**
+**Although these Entities have increased, their proportion has changed a lot. In 2018, Asia and China covered a large proportion of the global meat production.**
 
 ---
 class: center, middle

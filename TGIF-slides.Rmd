@@ -1,6 +1,6 @@
 ---
 title: "Meat production and consumption in world"
-subtitle: "TBIR"
+subtitle: "TGIF"
 author: "Cui Di, GuanRu Chen, Yunzhi Chen"
 institute: "Master of Business Analytics"
 output:
@@ -15,6 +15,24 @@ editor_options:
 
 
 
+class: left, top
+# `r emo::ji("book")`Introduction
+
+Meat is an important source of nutrition for many people around the world. Meat production and consumption greatly affect the sustainable development of the world.
+
+With the continuous development of the global economy and the continuous improvement of people's living standards, the market has numerous demands for meat products, with more and more variety requirements and higher quality requirements. So that we could better understand the situation about the global meat production.
+
+The data set was obtained from the "Our World in Data" data base and contains the following variables regarding to meat production of the world:
+ 
+* Country
+* Year
+* Amount of production: Measure in tons.
+* Livestock types: including beef and buffalo, pigmeat, poultry, sheep and goat,  and other meat types such as horse or camel et cetera.
+* Meat type consumption (kg/capita/year).
+
+???
+
+---
 class: left, top
 
 ```{r setup, include=FALSE}
@@ -41,22 +59,7 @@ style_mono_accent(base_color = "#43418A")
 ### `r emo::ji("target")`Meat production by livestock type -- GuanRu Chen
 ### `r emo::ji("target")`Per capita meat consumption -- Yunzhi Chen
 
----
-class: left, top
-# `r emo::ji("book")`Introduction
-
-Feeding the world in a sustainable way is one of our most pressing challenges in the coming decades. Meat plays a pivotal role in this.
-
-Meat is an important source of nutrition for many people around the world. Therefore, global demand for meat is keep growing: over the past 50 years, meat production has more than tripled. The world now produces more than 340 million tonnes each year.
-
-The data set was obtained from the "Our World in Data" data base and contains the following variables regarding to meat production of the world:
- 
-* Country
-* Year
-* Amount of production: Measure in tons.
-* Livestock types: including beef and buffalo, pigmeat, poultry, sheep and goat,  and other meat types such as horse or camel et cetera.
-* Meat type consumption (kg/capita/year).
-
+???
 
 ---
 class: center, middle
@@ -67,11 +70,13 @@ class: center, middle
 class: left, top
 # Research Questions
 
-
-- How did the global meat production develop by continents?
+- How did global meat production develop by continents?
 
 - How did the meat production develop in countries which contributed greatly?
 
+
+???
+How did the meat production develop in countries which contributed greatly?
 
 
 ---
@@ -110,9 +115,15 @@ ggplot(df, aes(x = Year, y = meat_production, color = Entity))+
 
 - Asia has been the largest meat producer since 1992.
 
+???
+
+1992
+
+producer
+
 ---
 class: left, top
-
+#### How did global meat production develop by continents?
 
 ```{r table, echo = FALSE, message = FALSE, warning = FALSE}
 increase <- df %>%
@@ -132,11 +143,15 @@ increase %>%
 
 - Meat production in Asia has increased around **15** times, accounting for around **43%** of total global meat production.
 
+???
+times P
+
 ---
+class: left, top
 
 ## How did the meat production develop in countries which contributed greatly?
 
-```{r country, echo = FALSE, message = FALSE, warning = FALSE, fig.cap="Top six countries' meat production from 1961 to 2018", fig.width=10, fig.height=5, fig.align='center'}
+```{r country, echo = FALSE, message = FALSE, warning = FALSE, fig.cap="Top six countries' meat production from 1961 to 2018", fig.width=10, fig.height=6, fig.align='center'}
 production <- production %>%
    rename("meat_production" = "Livestock.Primary...Meat..Total...1765...Production...5510...tonnes") %>%
   mutate(meat_production = round(meat_production/1000000, digits = 2)) 
@@ -164,7 +179,12 @@ ggplotly()
 
 - China has become the largest meat production country in the world since 1990.
 
+???
+1990
+
 ---
+class: left, top
+#### How did the meat production develop in countries which contributed greatly?
 
 ```{r country-table, echo = FALSE, message = FALSE, warning = FALSE}
 increase2 <- production %>%
@@ -188,11 +208,11 @@ increase2 %>%
 
 ```
 
--The world's meat production has around quadrupled.
+- The world's meat production has around quadrupled.
 
--China has increased about 34 times.
+- China has increased about 34 times.
 
-**Although these Entities have increased, their proportion has changed a lot. In 2018, Asia and China cover a large proportion of the global meat production.**
+**Although these Entities have increased, their proportion has changed a lot. In 2018, Asia and China covered a large proportion of the global meat production.**
 
 ---
 class: center, middle
@@ -474,7 +494,7 @@ class: left, top
 ## Which countries eat the most meat in the last 20 years?
 
 
-```{r highest-consumption-trend, echo = FALSE,  fig.height=5, fig.width=9, fig.cap = "Consumption trend of top 6 countries"}
+```{r highest-consumption-trend, echo = FALSE, include = FALSE, fig.height=5, fig.width=9, fig.cap = "Consumption trend of top 6 countries"}
 highest_consumption_trend <- meat_consumption %>% 
              filter(Year >= 1997) %>%
              filter(Country %in% c("United States", 
@@ -490,6 +510,12 @@ ggplot(highest_consumption_trend,
           y = Total_consumption_kg_capita_yr, 
           color = Country)) + 
  geom_line()  
+
+```
+
+```{r show-label1, echo = FALSE, fig.height = 5, fig.width = 9}
+
+ggplotly()
 
 ```
 
@@ -521,7 +547,7 @@ ggplot(Meat_type,
 
 ```
 
-```{r show-label, echo = FALSE, fig.height = 5, fig.width = 9}
+```{r show-label2, echo = FALSE, fig.height = 5, fig.width = 9}
 
 ggplotly()
 

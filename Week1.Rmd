@@ -5,10 +5,12 @@ author: "Cui Di, GuanRu Chen, Yunzhi Chen"
 institute: "Master of Business Analytics"
 output:
   xaringan::moon_reader:
+    
     lib_dir: libs
     css: ["xaringan-themer.css"]
     yolo: FALSE
-    
+editor_options: 
+  chunk_output_type: console
 ---
 
 
@@ -28,38 +30,54 @@ library(bookdown)
 library(gridExtra)
 library(viridis)
 library(plotly)
+library(emo)
 library(xaringanthemer)
 style_mono_accent(base_color = "#43418A")
 
 ```
 
 # Outline
-### Global meat production -- Di Cui
-### Meat production by livestock type -- GuanRu Chen
-### Per capita meat consumption -- Yunzhi Chen
+### `r emo::ji("target")`Global meat production -- Di Cui
+### `r emo::ji("target")`Meat production by livestock type -- GuanRu Chen
+### `r emo::ji("target")`Per capita meat consumption -- Yunzhi Chen
 
+---
+class: left, top
+# `r emo::ji("book")`Introduction
+
+Feeding the world in a sustainable way is one of our most pressing challenges in the coming decades. Meat plays a pivotal role in this.
+
+Meat is an important source of nutrition for many people around the world. Therefore, global demand for meat is keep growing: over the past 50 years, meat production has more than tripled. The world now produces more than 340 million tonnes each year.
+
+The data set was obtained from the "Our World in Data" data base and contains the following variables regarding to meat production of the world:
+ 
+* Country
+* Year
+* Amount of production: Measure in tons.
+* Livestock types: including beef and buffalo, pigmeat, poultry, sheep and goat,  and other meat types such as horse or camel et cetera.
+* Meat type consumption (kg/capita/year).
 
 
 ---
 class: center, middle
-# Global meat production
+# `r emo::ji("meat")`Global meat production
 
 
 ---
 class: left, top
 # Research Questions
 
-.content-box-neutral[ 
 
-]
+- How did the global meat production develop by continents?
+
+- How did the meat production develop in countries which contributed greatly?
+
 
 
 ---
-### Global meat production -- Di Cui
+## How did the global meat production develop by continents?
 
-How did global meat production develop from 1961 to 2018?
-
-```{r Q1, echo = FALSE, message = FALSE, warning = FALSE, fig.cap="Global meat production from 1961 to 2018", fig.width=10, fig.height=5.5, fig.align='center'}
+```{r Q1, echo = FALSE, message = FALSE, warning = FALSE, fig.cap="Global meat production from 1961 to 2018", fig.width=10, fig.height=5, fig.align='center'}
 
 global_production <-read.csv(here::here("Data/global-meat-production.csv"))
 production <- read.csv(here::here("Data/meat-production-tonnes.csv"))
@@ -90,10 +108,11 @@ ggplot(df, aes(x = Year, y = meat_production, color = Entity))+
 
 ```
 
+- Asia has been the largest meat producer since 1992.
+
 ---
 class: left, top
 
-### Meat production in Asia has increased around 15 times.
 
 ```{r table, echo = FALSE, message = FALSE, warning = FALSE}
 increase <- df %>%
@@ -111,11 +130,13 @@ increase %>%
 
 ```
 
+- Meat production in Asia has increased around **15** times, accounting for around **43%** of total global meat production.
+
 ---
 
-How did the Top six countries of meat production develop from 1961 to 2018?
+## How did the meat production develop in countries which contributed greatly?
 
-```{r country, echo = FALSE, message = FALSE, warning = FALSE, fig.cap="Top six countries' meat production from 1961 to 2018", fig.width=10, fig.height=6.5, fig.align='center'}
+```{r country, echo = FALSE, message = FALSE, warning = FALSE, fig.cap="Top six countries' meat production from 1961 to 2018", fig.width=10, fig.height=5, fig.align='center'}
 production <- production %>%
    rename("meat_production" = "Livestock.Primary...Meat..Total...1765...Production...5510...tonnes") %>%
   mutate(meat_production = round(meat_production/1000000, digits = 2)) 
@@ -141,14 +162,9 @@ ggplotly()
 
 ```
 
-
+- China has become the largest meat production country in the world since 1990.
 
 ---
-class: left, top
-
-The world's meat production has around quadrupled.
-
-China has increased about 34 times.
 
 ```{r country-table, echo = FALSE, message = FALSE, warning = FALSE}
 increase2 <- production %>%
@@ -172,32 +188,67 @@ increase2 %>%
 
 ```
 
+-The world's meat production has around quadrupled.
 
+-China has increased about 34 times.
+
+**Although these Entities have increased, their proportion has changed a lot. In 2018, Asia and China cover a large proportion of the global meat production.**
 
 ---
 class: center, middle
-# Meat production by livestock type
+# `r emo::ji("meat")`Meat production 
+# by livestock type
 
 
 ---
 class: left, top
-# Research Questions
+# `r emo::ji("notebook")`Research Questions
 
-.content-box-neutral[ 
+ 
 - What's the production distribution of different livestock types across the world?
+
 - Which countries are main production country for different types of meat, such as: Beef and buffalo, pig and poultry?
-]
+
 
 
 ---
-class: middle, center
+class: left, top
 
 ```{r load-data, echo = FALSE , message = FALSE, warning = FALSE}
 GD <- read_csv(file = "Data/global-meat-production.csv")
 MT <- read_csv(file = "Data/global-meat-production-by-livestock-type.csv")
 ```
 
-```{r fig1, echo = FALSE , message = FALSE, warning = FALSE, fig.cap = "Global meat production by livestock type, 1961 to 2018"}
+```{r fig1, echo = FALSE , message = FALSE, warning = FALSE, fig.cap = "Global meat production by livestock type, 1961 to 2018", fig.height = 7, fig.width = 10, fig.align='center'}
+production <- GD %>%
+  select(-Code) %>% 
+  filter(Entity %in% c("Asia",
+                       "Europe",
+                       "Northern America",
+                       "South America",
+                       "Central America",
+                       "Africa",
+                       "Oceania")) %>%
+    rename("Production"= "Livestock Primary - Meat, Total - 1765 - Production - 5510 - tonnes") %>%
+    group_by(Entity, Year) %>% 
+    mutate(Sum = round(Production/1000000, digits = 2))
+
+plt_pd<- ggplot(production, aes(x= Year,
+                                y= Sum, 
+                                fill= Entity)) + 
+    geom_area(alpha=0.6 , size=.5, colour="white")+
+    scale_fill_viridis(discrete = T) +
+    theme_minimal()+
+    ggtitle("Global meat production, 1961 to 2018")+
+    ylab("Production (million tonnes)")
+plt_pd
+```
+
+In first figure, we see that the **dominant livestock types are poultry**, cattle (which includes beef and buffalo meat), pig, and sheep & goat to a lesser extent at global level.
+
+---
+class: left, top
+```{r fig2, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Meat production by livestock type, 1961 to 2018", fig.height = 6, fig.width = 12, fig.align='center'}
 pt_world <- MT %>%
   select(-Code) %>% 
   rename("Sheep & Goat"= "Livestock Primary - Sheep and Goat Meat - 1807 - Production - 5510 - tonnes",
@@ -210,45 +261,35 @@ pt_world <- MT %>%
          "Camel"= "Livestock Primary - Meat, camel - 1127 - Production - 5510 - tonnes",
          "Goose & Guinea fowl"= "Livestock Primary - Meat, goose and guinea fowl - 1073 - Production - 5510 - tonnes") %>%
   filter(Entity== "World") %>% 
-    group_by(Entity, Year)
+  group_by(Entity, Year) 
 
 pt_world_long <- pt_world %>% 
   pivot_longer(cols= "Sheep & Goat":"Goose & Guinea fowl",
                names_to= "Type",
-               values_to = "Amount")
+               values_to = "Amount") %>% 
+  mutate(Sum = round(Amount/1000000, digits = 2))
 
-plt_type1<- ggplot(pt_world_long, aes(x= Year,
-                                    y= Amount, 
-                                    fill= Type))+ 
-    geom_area(alpha=0.6 , size=.5, colour="white")+
-    scale_fill_viridis(discrete = T) +
-    theme_minimal()
-plt_type1
-```
-.content-box[In first figure, we see that the **dominant livestock types are poultry**, cattle (which includes beef and buffalo meat), pig, and sheep & goat to a lesser extent at global level.
-]
 
----
-class: middle, center
-```{r fig2, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Meat production by livestock type, 1961 to 2018"}
-plt_type2<- ggplot(pt_world_long, aes(x= Year,
-                                     y= Amount,
+plt_type<- ggplot(pt_world_long, aes(x= Year,
+                                     y= Sum,
                                      group= Type,
                                      fill= Type))+
     geom_area() +
     scale_fill_viridis(discrete = TRUE)+
     theme_minimal() +
-    facet_wrap(~ Type, scale="free_y")
-plt_type2
+    facet_wrap(~ Type, scale="free_y")+
+    ylab("Production by livestiock type (million tonnes)")
+
+plt_type
 ```
-.content-box[From second figure, we can see the production of all major meat types have been increasing. But **the share of global meat types have changed significantly**. 
+
+From second figure, we can see the production of all major meat types have been increasing. But **the share of global meat types have changed significantly**. 
   - In 1960s poultry meat accounted for small portion; by 2010s its share has tripled. 
   - Beef and buffalo meat as a share of total meat production has nearly halved. 
   - Pig meat’s share has remained more constant.
-]
 
 ---
-class: middle, center
+class: middle, top
 ```{r tidydata, echo = FALSE , message = FALSE, warning = FALSE}
 pd_type <- MT %>%
   select(-Code) %>% 
@@ -271,119 +312,126 @@ pd_type <- MT %>%
 pd_cattle <- pd_type %>% 
     filter(Type == "Beef & Buffalo") %>% 
     group_by(Entity) %>% 
-    summarise(Total= sum(Amount))%>% 
-    arrange(-Total)
+    summarise(Total= sum(Amount))%>%
+    mutate(Production = round(Total/1000000, digits = 2)) %>% 
+    select(-Total) %>%
+    arrange(-Production)
 
-
-kable(head(pd_cattle, 20), caption = "Beef and buffalo (cattle) meat production, 1961-2018", booktabs = T)%>%
-kable_material(c("striped", "hover"), position = "center")
-
-
+kable(head(pd_cattle, 20), caption = "Beef and buffalo (cattle) meat production (million tonnes), 1961-2018", booktabs = T)%>%
+kable_material(c("striped", "hover"), position = "center") %>% 
+  scroll_box(width = "800px", height = "600px")
 ```
 
-]
 
 ---
-class: middle, center
-```{r cattle-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Cattle production, 1961 to 2018"}
+class: left, top
+```{r cattle-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Cattle production, 1961 to 2018", fig.height = 9, fig.width = 15, fig.align='center'}
 top_cattle<- pd_type %>% 
   filter(Entity %in% c("United States",
                        "China",
                        "Brazil")) %>% 
   filter(Type== "Beef & Buffalo") %>% 
+  mutate(Production = round(Amount/1000000, digits = 2)) %>%
   group_by(Entity)
 
-ggplot(top_cattle, aes(x= Year, y= Amount, color= Entity))+
-      geom_line()+
+ggplot(top_cattle, aes(x= Year, y= Production, color= Entity))+
+    geom_line()+
     scale_fill_viridis(discrete = TRUE) +
+    ylab("Production (million tonnes)")+
     theme_minimal()
 ```
 
-.content-box[In first table, we see the global production of cattle (beef and buffalo) meat. From country's perspective, **The United States is the world’s largest beef and buffalo meat producer**. Other major producers are Brazil and China.
-]
+In first table, we see the global production of cattle (beef and buffalo) meat. From country's perspective, **The United States is the world’s largest beef and buffalo meat producer**. Other major producers are Brazil and China.
 
 ---
-class: middle, center
+class: middle, top
 ```{r poultry, echo = FALSE , message = FALSE, warning = FALSE}
 pd_poultry <- pd_type %>% 
     filter(Type == "Poultry") %>% 
     group_by(Entity) %>% 
-    summarise(Total= sum(Amount))%>% 
-    arrange(-Total)
+    summarise(Total= sum(Amount))%>%
+    mutate(Production = round(Total/1000000, digits = 2)) %>%
+    select(-Total) %>%
+    arrange(-Production)
 
-kable(head(pd_cattle, 20), caption = "Poultry meat production, 1961-2018", booktabs = T)%>%
-kable_material(c("striped", "hover"), position = "center")
+kable(head(pd_poultry, 20), caption = "Poultry meat production (million tonnes), 1961-2018", booktabs = T)%>%
+kable_material(c("striped", "hover"), position = "center") %>% 
+  scroll_box(width = "800px", height = "600px")
 ```
 
 
 
 ---
-class: middle, center
-```{r , echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "poultry production, 1961 to 2018"}
+class: left, top
+```{r poltry-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "poultry production, 1961 to 2018", fig.height = 9, fig.width = 15, fig.align='center'}
 top_poultry<- pd_type %>% 
   filter(Entity %in% c("United States",
                        "China",
                        "Brazil",
                        "Europe")) %>% 
   filter(Type== "Poultry") %>% 
+  mutate(Production = round(Amount/1000000, digits = 2)) %>%
   group_by(Entity)
 
-ggplot(top_poultry, aes(x= Year, y= Amount, color= Entity))+
-  geom_line()+
-  scale_fill_viridis(discrete = TRUE) +
-  theme_minimal()
+ggplot(top_poultry, aes(x= Year, y= Production, color= Entity))+
+    geom_line()+
+    scale_fill_viridis(discrete = TRUE) +
+    ylab("Production (million tonnes)")+
+    theme_minimal() 
 ```
 
-.content-box[In second table, we can see the production of poultry, like cattle production, **the United States is still the world’s largest producer.** China and Brazil are also large poultry producers. Collectively, Europe is also a major poultry producer, just below the United States.
-]
+In second table, we can see the production of poultry, like cattle production, **the United States is still the world’s largest producer.** China and Brazil are also large poultry producers. Collectively, Europe is also a major poultry producer, just below the United States.
 
 ---
-class: middle, center
+class: middle, top
 ```{r pig, echo = FALSE , message = FALSE, warning = FALSE}
 pd_pigmeat <- pd_type %>% 
     filter(Type == "Pig") %>% 
     group_by(Entity) %>% 
-    summarise(Total= sum(Amount))%>% 
-    arrange(-Total)
+    summarise(Total= sum(Amount))%>%
+    mutate(Production = round(Total/1000000, digits = 2)) %>%
+    select(-Total) %>% 
+    arrange(-Production)
 
-kable(head(pd_pigmeat, 20), caption = "Pig meat production, 1961-2018", booktabs = T)%>%
-kable_material(c("striped", "hover"), position = "center")
+kable(head(pd_pigmeat, 20), caption = "Pig meat production (million tonnes), 1961-2018", booktabs = T)%>%
+kable_material(c("striped", "hover"), position = "center")%>% 
+  scroll_box(width = "800px", height = "600px")
 ```
 
 ---
-class: middle, center
-```{r , echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "pig production, 1961 to 2018"}
+class: left, top
+```{r pig-fig, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "pig production, 1961 to 2018", fig.height = 9, fig.width = 15, fig.align='center'}
 top_pigmeat<- pd_type %>% 
   filter(Entity %in% c("United States",
                        "China",
                        "Germany")) %>% 
   filter(Type== "Pig") %>% 
+  mutate(Production = round(Amount/1000000, digits = 2)) %>%
   group_by(Entity)
 
-ggplot(top_pigmeat, aes(x= Year, y= Amount, color= Entity))+
-  geom_line()+
-  scale_fill_viridis(discrete = TRUE) +
-  theme_minimal()
+ggplot(top_pigmeat, aes(x= Year, y= Production, color= Entity))+
+    geom_line()+
+    scale_fill_viridis(discrete = TRUE) +
+    ylab("Production (million tonnes)")+
+    theme_minimal()
 ```
 
-.content-box[But for pigmeat production , **China dominates global output, producing just short of half of total pigmeat.** The other major producers include the United States, Germany.
-]
-
+But for pigmeat production , **China dominates global output, producing just short of half of total pigmeat.** The other major producers include the United States, Germany.
 
 ---
 class: center, middle
-# Per capita meat consumption
+# `r emo::ji("meat")`Per capita meat consumption
 
 
 ---
 class: left, top
-# Research Questions
+# `r emo::ji("notebook")`Research Questions
 
-.content-box-neutral[ 
 
 - Which countries eat the most meat in the last 20 years?
+
 - What types of meat do people eat?
-]
+
 
 
 ```{r read-data, echo = FALSE, message = FALSE}
@@ -454,7 +502,7 @@ ggplot(highest_consumption_trend,
 
 ```
 
-- Considerable fluctuation trends except Australia and the United States.
+- Considerable fluctuation trends, overall downward trends except Australia and the United States.
 - Total value is much higher than the world consumption.
 
 ???
@@ -497,7 +545,7 @@ As a global average, pork has the highest per capita consumption of meat commodi
 
 ---
 class: left, top
-# Conclusion
+# `r emo::ji("scientist")`Conclusion
 
 - In 2018, production was around 340 million tonnes. And Asia and China have contributed greatly to global meat production.
 - The amount of meat produced for a given animal varies significantly across the world based on production systems.
@@ -510,7 +558,7 @@ class: left, top
 
 
 ---
-class: centre, middle
+class: center, middle
 # Question & Answer
 
 

@@ -8,8 +8,12 @@ output:
     lib_dir: libs
     css: ["xaringan-themer.css"]
     yolo: FALSE
+    
 ---
 
+
+
+class: left, top
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
@@ -29,8 +33,6 @@ style_mono_accent(base_color = "#43418A")
 
 ```
 
----
-class: left, top
 # Outline
 ### Global meat production -- Di Cui
 ### Meat production by livestock type -- GuanRu Chen

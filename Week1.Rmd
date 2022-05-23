@@ -221,36 +221,6 @@ MT <- read_csv(file = "Data/global-meat-production-by-livestock-type.csv")
 ```
 
 ```{r fig1, echo = FALSE , message = FALSE, warning = FALSE, fig.cap = "Global meat production by livestock type, 1961 to 2018", fig.height = 3, fig.width = 10, fig.align='center'}
-production <- GD %>%
-  select(-Code) %>% 
-  filter(Entity %in% c("Asia",
-                       "Europe",
-                       "Northern America",
-                       "South America",
-                       "Central America",
-                       "Africa",
-                       "Oceania")) %>%
-    rename("Production"= "Livestock Primary - Meat, Total - 1765 - Production - 5510 - tonnes") %>%
-    group_by(Entity, Year) %>% 
-    mutate(Sum = round(Production/1000000, digits = 2))
-
-plt_pd<- ggplot(production, aes(x= Year,
-                                y= Sum, 
-                                fill= Entity)) + 
-    geom_area(alpha=0.6 , size=.5, colour="white")+
-    scale_fill_viridis(discrete = T) +
-    theme_minimal()+
-    ggtitle("Global meat production, 1961 to 2018")+
-    ylab("Production (million tonnes)")
-plt_pd
-```
-
-In first figure, we see that the **dominant livestock types are poultry**, cattle (which includes beef and buffalo meat), pig, and sheep & goat to a lesser extent at global level.
-
-
----
-class: left, top
-```{r fig2, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Meat production by livestock type, 1961 to 2018", fig.height = 6, fig.width = 12, fig.align='center'}
 pt_world <- MT %>%
   select(-Code) %>% 
   rename("Sheep & Goat"= "Livestock Primary - Sheep and Goat Meat - 1807 - Production - 5510 - tonnes",
@@ -271,7 +241,23 @@ pt_world_long <- pt_world %>%
                values_to = "Amount") %>% 
   mutate(Sum = round(Amount/1000000, digits = 2))
 
+plt_pd<- ggplot(pt_world_long, aes(x= Year,
+                                   y= Sum, 
+                                   fill= Type)) + 
+    geom_area(alpha=0.6 , size=.5, colour="white")+
+    scale_fill_viridis(discrete = T) +
+    theme_minimal()+
+    ggtitle("Global meat production, 1961 to 2018")+
+    ylab("Production (million tonnes)")
+plt_pd
+```
 
+In first figure, we see that the **dominant livestock types are poultry**, cattle (which includes beef and buffalo meat), pig, and sheep & goat to a lesser extent at global level.
+
+
+---
+class: left, top
+```{r fig2, echo = FALSE, message = FALSE, warning = FALSE, fig.cap = "Meat production by livestock type, 1961 to 2018", fig.height = 6, fig.width = 12, fig.align='center'}
 plt_type<- ggplot(pt_world_long, aes(x= Year,
                                      y= Sum,
                                      group= Type,
@@ -281,7 +267,6 @@ plt_type<- ggplot(pt_world_long, aes(x= Year,
     theme_minimal() +
     facet_wrap(~ Type, scale="free_y")+
     ylab("Production by livestiock type (million tonnes)")
-
 plt_type
 ```
 

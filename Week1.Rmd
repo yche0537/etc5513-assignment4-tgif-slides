@@ -30,22 +30,25 @@ library(bookdown)
 library(gridExtra)
 library(viridis)
 library(plotly)
+library(emo)
 library(xaringanthemer)
 style_mono_accent(base_color = "#43418A")
 
 ```
 
 # Outline
-### Global meat production -- Di Cui
-### Meat production by livestock type -- GuanRu Chen
-### Per capita meat consumption -- Yunzhi Chen
+### `r emo::ji("target")`Global meat production -- Di Cui
+### `r emo::ji("target")`Meat production by livestock type -- GuanRu Chen
+### `r emo::ji("target")`Per capita meat consumption -- Yunzhi Chen
 
 ---
 class: left, top
-# Introductiion
+# `r emo::ji("book")`Introductiion
 
 Feeding the world in a sustainable way is one of our most pressing challenges in the coming decades. Meat plays a pivotal role in this.
-Meat is an important source of nutrition for many people around the world. Global demand for meat is growing: over the past 50 years, meat production has more than tripled. The world now produces more than 340 million tonnes each year.
+
+Meat is an important source of nutrition for many people around the world. Therefore, global demand for meat is keep growing: over the past 50 years, meat production has more than tripled. The world now produces more than 340 million tonnes each year.
+
 The data set was obtained from the "Our World in Data" data base and contains the following variables regarding to meat production of the world:
  
 * Country
@@ -57,7 +60,7 @@ The data set was obtained from the "Our World in Data" data base and contains th
 
 ---
 class: center, middle
-# Global meat production
+# `r emo::ji("meat")`Global meat production
 
 
 ---
@@ -191,18 +194,18 @@ increase2 %>%
 
 ---
 class: center, middle
-# Meat production 
+# `r emo::ji("meat")`Meat production 
 # by livestock type
 
 
 ---
 class: left, top
-# Research Questions
+# `r emo::ji("notebook")`Research Questions
 
-.content-box-neutral[ 
+ 
 - What's the production distribution of different livestock types across the world?
 - Which countries are main production country for different types of meat, such as: Beef and buffalo, pig and poultry?
-]
+
 
 
 ---
@@ -414,12 +417,12 @@ But for pigmeat production , **China dominates global output, producing just sho
 
 ---
 class: center, middle
-# Per capita meat consumption
+# `r emo::ji("meat")`Per capita meat consumption
 
 
 ---
 class: left, top
-# Research Questions
+# `r emo::ji("notebook")`Research Questions
 
 .content-box-neutral[ 
 
@@ -539,7 +542,7 @@ As a global average, pork has the highest per capita consumption of meat commodi
 
 ---
 class: left, top
-# Conclusion
+# `r emo::ji("scientist")`Conclusion
 
 - In 2018, production was around 340 million tonnes. And Asia and China have contributed greatly to global meat production.
 - The amount of meat produced for a given animal varies significantly across the world based on production systems.

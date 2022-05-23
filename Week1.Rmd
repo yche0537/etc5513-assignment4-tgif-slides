@@ -182,7 +182,7 @@ class:  center, top
 
 ### Global meat production -- Di Cui
 
-How does global meat production develop from 1961 to 2018?
+How did global meat production develop from 1961 to 2018?
 
 ```{r Q1, echo = FALSE, message = FALSE, warning = FALSE, fig.cap="Global meat production from 1961 to 2018", fig.width=10, fig.height=5.5, fig.align='center'}
 
@@ -216,7 +216,9 @@ ggplot(df, aes(x = Year, y = meat_production, color = Entity))+
 ```
 
 ---
+class: left, top
 
+### Meat production in Asia has increased around 15 times.
 
 ```{r table, echo = FALSE, message = FALSE, warning = FALSE}
 increase <- df %>%
@@ -224,20 +226,19 @@ increase <- df %>%
   select(Entity, Year, meat_production) %>%
   pivot_wider(names_from = Year, values_from = meat_production) %>%
   rename("Year2018" = "2018", "Year1961" = "1961" ) %>%
-  mutate(per_wolrd_2018 = round(Year2018*100/sum(Year2018), digits = 2)) %>%
-  mutate(increase_times = round((Year2018-Year1961)/Year1961, digits = 2)) 
-   
- 
+  mutate(P1961 = round(Year1961*100/sum(Year1961), digits = 2)) %>%
+  mutate(P2018 = round(Year2018*100/sum(Year2018), digits = 2)) %>%
+  mutate(times = round((Year2018-Year1961)/Year1961, digits = 2)) 
 increase %>%
-  arrange(-per_wolrd_2018)%>%
-  knitr::kable(caption = "The comparison between 1961 and 2018") %>%
+  arrange(-P2018)%>%
+  knitr::kable(caption = "Comparison between 1961 and 2018") %>%
   kable_styling()
 
 ```
 
 ---
 
-How do the Top six countries of meat production develop from 1961 to 2018?
+How did the Top six countries of meat production develop from 1961 to 2018?
 
 ```{r country, echo = FALSE, message = FALSE, warning = FALSE, fig.cap="Top six countries' meat production from 1961 to 2018", fig.width=10, fig.height=6.5, fig.align='center'}
 production <- production %>%
@@ -268,7 +269,11 @@ ggplotly()
 
 
 ---
+class: left, top
 
+The world's meat production has around quadrupled.
+
+China has increased about 34 times.
 
 ```{r country-table, echo = FALSE, message = FALSE, warning = FALSE}
 increase2 <- production %>%
@@ -279,15 +284,15 @@ increase2 <- production %>%
   select(Entity, Year, meat_production) %>%
   pivot_wider(names_from = Year, values_from = meat_production) %>%
   rename("Year2018" = "2018", "Year1961" = "1961" ) %>%
-  mutate(per_wolrd_2018 = round(Year2018*100/342.42, digits = 2)) %>%
-  mutate(increase_times = round((Year2018-Year1961)/Year1961, digits = 2)) 
+  mutate(P1961 = round(Year1961*100/71.36, digits = 2)) %>%
+  mutate(P2018 = round(Year2018*100/342.42, digits = 2)) %>%
+  mutate(times = round((Year2018-Year1961)/Year1961, digits = 2)) 
   
 
 increase2 %>%
-  arrange(-per_wolrd_2018)%>%
-  knitr::kable(caption = "The comparison between 1961 and 2018") %>%
-  kable_styling()
-
+  arrange(-P2018)%>%
+  knitr::kable(caption = "Comparison between 1961 and 2018") %>%
+ kable_styling()
 
 
 ```

@@ -349,7 +349,8 @@ ggplot(top_cattle, aes(x= Year, y= Production, color= Entity))+
     geom_line()+
     scale_fill_viridis(discrete = TRUE) +
     ylab("Production (million tonnes)")+
-    theme_minimal()
+    theme_minimal()+
+    theme(text=element_text(size=23))
 ```
 
 In first table, we see the global production of cattle (beef and buffalo) meat. From country's perspective, **The United States is the world’s largest beef and buffalo meat producer**. Other major producers are Brazil and China.
@@ -388,7 +389,8 @@ ggplot(top_poultry, aes(x= Year, y= Production, color= Entity))+
     geom_line()+
     scale_fill_viridis(discrete = TRUE) +
     ylab("Production (million tonnes)")+
-    theme_minimal() 
+    theme_minimal()+
+    theme(text=element_text(size=23))
 ```
 
 In second table, we can see the production of poultry, like cattle production, **the United States is still the world’s largest producer.** China and Brazil are also large poultry producers. Collectively, Europe is also a major poultry producer, just below the United States.
@@ -424,7 +426,8 @@ ggplot(top_pigmeat, aes(x= Year, y= Production, color= Entity))+
     geom_line()+
     scale_fill_viridis(discrete = TRUE) +
     ylab("Production (million tonnes)")+
-    theme_minimal()
+    theme_minimal()+
+    theme(text=element_text(size=23))
 ```
 
 But for pigmeat production , **China dominates global output, producing just short of half of total pigmeat.** The other major producers include the United States, Germany.

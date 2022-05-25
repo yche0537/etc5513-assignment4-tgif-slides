@@ -1,7 +1,7 @@
 ---
 title: "Meat production and consumption in world"
 subtitle: "TGIF"
-author: "Cui Di, GuanRu Chen, Yunzhi Chen"
+author: "Di Cui, GuanRu Chen, Yunzhi Chen"
 institute: "Master of Business Analytics"
 output:
   xaringan::moon_reader:
@@ -14,7 +14,6 @@ editor_options:
 ---
 
 
-
 class: left, top
 # `r emo::ji("book")`Introduction
 
@@ -22,15 +21,16 @@ Meat is an important source of nutrition for many people around the world. Meat 
 
 With the continuous development of the global economy and the continuous improvement of people's living standards, the market has numerous demands for meat products, with more and more variety requirements and higher quality requirements. So that we could better understand the situation about the global meat production.
 
-The data set was obtained from the "Our World in Data" data base and contains the following variables regarding to meat production of the world:
+The data set was obtained from the **"Our World in Data"** data base and contains the following variables regarding to meat production of the world:
  
-* Country
-* Year
-* Amount of production: Measure in tons.
-* Livestock types: including beef and buffalo, pigmeat, poultry, sheep and goat,  and other meat types such as horse or camel et cetera.
-* Meat type consumption (kg/capita/year).
+* **Country**
+* **Year**
+* **Amount of production**: Measure in tons.
+* **Livestock types**: including beef and buffalo, pigmeat, poultry, sheep and goat,  and other meat types such as horse or camel et cetera.
+* **Meat type consumption** (kg/capita/year).
 
 ???
+The dataset was obtained from “Our World in Data” database and contains the following variables.
 
 ---
 class: left, top
@@ -59,12 +59,13 @@ style_mono_accent(base_color = "#43418A")
 ### `r emo::ji("target")`Meat production by livestock type -- GuanRu Chen
 ### `r emo::ji("target")`Per capita meat consumption -- Yunzhi Chen
 
-???
 
 ---
 class: center, middle
 # `r emo::ji("meat")`Global meat production
 
+???
+we analyzed two directions, one by continent and one by country.
 
 ---
 class: left, top
@@ -74,9 +75,6 @@ class: left, top
 
 - How did the meat production develop in countries which contributed greatly?
 
-
-???
-How did the meat production develop in countries which contributed greatly?
 
 
 ---
@@ -116,10 +114,7 @@ ggplot(df, aes(x = Year, y = meat_production, color = Entity))+
 - Asia has been the largest meat producer since 1992.
 
 ???
-
-1992
-
-producer
+And in 1992, Asia produced more than Europe and became the largest meat producer. 
 
 ---
 class: left, top
@@ -144,7 +139,7 @@ increase %>%
 - Meat production in Asia has increased around **15** times, accounting for around **43%** of total global meat production.
 
 ???
-times P
+while the proportion of Europe and Northern America decreased, although their production increased.
 
 ---
 class: left, top
@@ -180,7 +175,7 @@ ggplotly()
 - China has become the largest meat production country in the world since 1990.
 
 ???
-1990
+And China has become the largest meat production country in the world since 1990.
 
 ---
 class: left, top
@@ -208,11 +203,15 @@ increase2 %>%
 
 ```
 
-- The world's meat production has around quadrupled.
+- The world's meat production has increased around quadrupled.
 
 - China has increased about 34 times.
 
 **Although these Entities have increased, their proportion has changed a lot. In 2018, Asia and China covered a large proportion of the global meat production.**
+
+
+???
+Guanru
 
 ---
 class: center, middle
@@ -429,10 +428,15 @@ ggplot(top_pigmeat, aes(x= Year, y= Production, color= Entity))+
 
 But for pigmeat production , **China dominates global output, producing just short of half of total pigmeat.** The other major producers include the United States, Germany.
 
+???
+Yunzhi
+
 ---
 class: center, middle
 # `r emo::ji("meat")`Per capita meat consumption
 
+???
+Alright, let’s focus on the meat consumption.
 
 ---
 class: left, top
@@ -442,7 +446,6 @@ class: left, top
 - Which countries eat the most meat in the last 20 years?
 
 - What types of meat do people eat?
-
 
 
 ```{r read-data, echo = FALSE, message = FALSE}
@@ -463,6 +466,11 @@ meat_consumption <- meat_consumption_type %>% left_join(meat_consumption_total) 
 
 ```
 
+
+???
+I’ll demonstrate that topic from following two questions. 
+Which countries eat the most meat in the last 20 years?
+What types of meat do people eat?
 
 
 ---
@@ -487,7 +495,7 @@ knitr::kable(table_data2,
 - The top six countries are the United States, Australia, New Zealand, Spain, French Polynesia and Bahamas.
 
 ???
-The top six countries with the highest average meat consumption mean in the world over the 20-year period from 1997 to 2017 are the United States, Australia, New Zealand, Spain, French Polynesia and Bahamas. The highest per capita meat consumption mean of the United States reached about 121.2 kg/capita/year. Countries with high income also consume more meat. Developed countries account for a large share of the six countries with the highest average meat consumption over years.
+Firstly, I will overview which countries eat the most meat in the last 20 years? I calculated the mean of meat demand from 1997 to 2017 and extracted the top six countries into table. The countries are the United States, Australia, New Zealand, Spain, French Polynesia and Bahamas. The highest value of the United States reached about 121.2 kg per capita per year. It seems that countries with high income also consume more meat. Meanwhile, developed countries account for a large share of the six countries with the highest average meat consumption over years.
 
 ---
 class: left, top
@@ -519,11 +527,18 @@ ggplotly()
 
 ```
 
-- Considerable fluctuation trends, overall downward trends except Australia and the United States.
-- Total value is much higher than the world consumption.
+```{r Bahamas-trend, echo = FALSE, include = FALSE}
+Bahamas <- highest_consumption_trend %>% filter(Country == "Bahamas") 
+Decline <- Bahamas %>% mutate(Decline_Percentage = (Bahamas$Total_consumption_kg_capita_yr[1]-Bahamas$Total_consumption_kg_capita_yr[21])/Bahamas$Total_consumption_kg_capita_yr[1] * 100)
+
+```
+
+
+- Considerable fluctuation trends, overall downward trends except Australia and the United States, especially **Bahamas**, with around **`r round(Decline$Decline_Percentage[1])`% decline**.
+- The world consumption value is **much lower** than these 6 countries.
 
 ???
-The meat consumption per person in these countries over the last 20 years have fluctuated considerably, with the exception of Australia and the United States, where consumption has increased, while all other countries have shown a decreasing trend, but the total value is still much higher than the world per capita meat consumption.
+As for the changing trend over the 20-year period from 1997 to 2017, the meat consumption per person in top 6 countries have fluctuated considerably. With the exception of Australia and the United States, where consumption has increased, while all other countries have shown a decreasing trend, especially Bahamas, with around 27% decline. However, the total value is still much higher than the world per capita meat consumption. New Zealand has the largest meat-eaters, consuming around 126 kilograms per person in 2011.
 
 
 ---
@@ -553,29 +568,36 @@ ggplotly()
 
 ```
 
-- Pork has the highest per capita consumption of meat commodities.
-- In 2013, pork: 16 kg; poultry: 15 kg; beef & buffalo: 9 kg; lamb & goat: 2 kg; and only a small percentage of other meats.
+- **Pork** has the highest per capita consumption of meat commodities.
+- In 2013, pork: **16** kg; poultry: **15** kg; beef & buffalo: **9** kg; lamb & goat: **2** kg; and only a small percentage of other meats.
 
 
 ???
-As a global average, pork has the highest per capita consumption of meat commodities; in 2013, per capita pork consumption was about 16 kg; followed by 15 kg of poultry; 9 kg of beef/buffalo meat; 2 kg of lamb and goat; and only a small percentage of other meats.
+Next, I’d like to discuss what types of meat do people eat? I visualized five types of meat consumption of world that collected from 1961 to 2013, which are Beef&Bufallo meat, Mutton&Goat meat, pork, poultry and other type meat. The graph illustrates in a global average level, pork has the highest per capita consumption of meat commodities; in 2013, per capita pork consumption was about 16 kg; followed by 15 kg of poultry; 9 kg of beef and buffalo meat; 2 kg of lamb and goat; and only a small percentage of other meats, such as horse or camel
 
 ---
 class: left, top
 # `r emo::ji("scientist")`Conclusion
 
-- In 2018, production was around 340 million tonnes. And Asia and China have contributed greatly to global meat production.
-- The amount of meat produced for a given animal varies significantly across the world based on production systems.
-- Richer countries tend to consume more meat per person. Developed countries account for a large share of the six countries with the highest average meat consumption in the last 20 years. 
-- The average person in the world consumed around 43 kilograms of meat in 2014. This ranges from over 100kg in the US and Australia to only 5kg in India.
-- Although there is a lot of fluctuation, the amount of meat consumed per capita is much larger than the world average.
-- At the world level, per capita consumption of pork is the highest among meat commodities over years. 
+- In 2018, production was around **340** million tonnes. **Asia and China** have contributed greatly to global meat production.
+- The amount of meat produced for a given animal **varies significantly** across the world based on production systems.
+- **Richer countries** tend to consume more meat per person. **Developed countries** account for a **large share** of the six countries with the highest average meat consumption in the last 20 years. 
+- The average person in the world consumed around **43 kilograms of meat in 2014**. This ranges from over **100kg in the US and Australia** to only **5kg in India**.
+- Although there is a lot of **fluctuation**, the amount of meat consumed per capita is **much larger** than the world average.
+- At the world level, per capita consumption of **pork is the highest** among meat commodities over years. 
 
 
+???
+To summarize, today our team evaluated that the total amount of meat production and consumption in global countries, and the changing trend of different meat varieties. 
+In the aspect of production, in 2018, production was around 340 million tonnes. Asia and China have contributed greatly to global meat production. The amount of meat produced for a given animal varies significantly across the world based on production systems.
+As for consumption, richer countries tend to consume more meat per person. Developed countries account for a large share of the six countries with the highest average meat consumption in the last 20 years. The average person in the world consumed around 43 kilograms of meat in 2014. This ranges from over 100kg in the US and Australia to only 5kg in India. Although there is a lot of fluctuation, the amount of meat consumed per capita is much larger than the world average. At the world level, per capita consumption of pork is the highest among meat commodities over years. 
 
 
 ---
 class: center, middle
 # Question & Answer
+
+???
+That bring me to the end of the presentation, thanks for listening! we’d be happy to take questions from the audience.
 
 
